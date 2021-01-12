@@ -14,9 +14,6 @@
  
 </head>
 <body>
-  <h1>Test</h1>
-  <div id="myName"></div>
-  <div id="onName"></div>
 
 </body>
 <script>
@@ -35,60 +32,16 @@
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();
-  console.log(firebase)
-  // ref 尋找資料庫路徑
-  //set 新增資料
-  firebase.database().ref().set('hi')
+  //todolist push 類似 arr push
+  //key 
 
-  // firebase 為物件格式，不能陣列內容
+  var todos = firebase.database().ref('todos')
+  todos.push({content:'要記得吃藥'})
 
-  let data = null;
-  data = {
-    student1 :{
-      name: 'Tom',
-      score: 2,
-    },
-    student2 :{
-      name: 'Billy',
-      score: 3,
-    },
-  }
-  data = {
-    food: {
-        coke: {
-            price: 30,
-            num: 1
-        },
-        fries: {
-            price: 50,
-            num: 20
-        }
-    },
-    order: {
-        1: {
-            coke: 2
-        },
-        2: {
-            fries: 5,
-            coke: 2
-        }
-    }
-  }
-  data={
-    onceName : 'Tom',
-    onName : 'Billy'
-  }
-  firebase.database().ref().set(data)
-  // once 讀取一次資料庫 on 隨時監聽
-  var myName = firebase.database().ref('onceName')
-  myName.once('value',function(snapshot){
-    console.log(snapshot.val())
-    document.getElementById('myName').textContent = snapshot.val()
-  })
-  var onName = firebase.database().ref('onName')
-  onName.on('value',function (snapshot) {
-    document.getElementById('onName').textContent = snapshot.val()
-  })
+  //child 子路徑 remove()
+  var testTodos = firebase.database().ref().child('todos')
+  testTodos.child(MQpxbm7SxcFMJpGKotl).remove()
+
 
 </script>
 </html>
