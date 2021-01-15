@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-database.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-analytics.js"></script>
+ 
+</head>
+<body>
+  <pre id="content"></pre>
+</body>
+<script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyDzxYVpzA-xFhn8WWtskqP2iYK2ghAMHY4",
+    authDomain: "node-test-79f9d.firebaseapp.com",
+    databaseURL: "https://node-test-79f9d-default-rtdb.firebaseio.com",
+    projectId: "node-test-79f9d",
+    storageBucket: "node-test-79f9d.appspot.com",
+    messagingSenderId: "647933648455",
+    appId: "1:647933648455:web:63d6e2b1b922b620bd1b62",
+    measurementId: "G-B3Z83SXCQK"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+  var ref = firebase.database().ref()
+  ref.on('value',function(snapshot){
+    console.log(snapshot.val())
+    var path = document.getElementById('content')
+    path.textContent = JSON.stringify(snapshot.val(),null,3)
+  })
+</script>
+</html>
