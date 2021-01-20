@@ -32,7 +32,7 @@
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();
 
-  let peopleStart = {
+  let peopleLimit = {
     "Tom":{
       "weight": 5000,
       "height": 162,
@@ -52,12 +52,42 @@
       "weight": 3200,
       "height": 172,
       "age" : 26,
+    },
+    "ADAM":{
+      "weight": 3100,
+      "height": 173,
+      "age" : 26,
+    },
+    "BILL":{
+      "weight": 3300,
+      "height": 174,
+      "age" : 26,
+    },
+    "CHAW":{
+      "weight": 3400,
+      "height": 175,
+      "age" : 26,
+    },
+    "ALLEN":{
+      "weight": 3500,
+      "height": 176,
+      "age" : 26,
+    },
+    "VIC":{
+      "weight": 3600,
+      "height": 174,
+      "age" : 26,
+    },
+    "LENA":{
+      "weight": 4300,
+      "height": 174,
+      "age" : 26,
     }
   }
-  firebase.database().ref('peopleStart').set(peopleStart)
-  var peopleRef = firebase.database().ref('peopleStart')
+  firebase.database().ref('peopleLimit').set(peopleLimit)
+  var peopleRef = firebase.database().ref('peopleLimit')
   // 路徑 >> 排序('屬性')>> 過濾 >> 讀取 >forEach 撈出資料
-  peopleRef.orderByChild('weight').equalTo(2400).once('value',function(snapshot){
+  peopleRef.orderByChild('weight').startAt(2400).limitToFirst(5).once('value',function(snapshot){
     console.log(snapshot.val())
     snapshot.forEach(element => {
       console.log(element.key)

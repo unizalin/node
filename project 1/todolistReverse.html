@@ -14,6 +14,9 @@
  
 </head>
 <body>
+  <input type="text" id="txt">
+  <button id="btn">送出</button>
+  <ul id="list"></ul>
 </body>
 <script>
   // Your web app's Firebase configuration
@@ -31,39 +34,44 @@
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();
+  
+  var txt = document.getElementById('txt')
+  var btn = document.getElementById('btn')
+  var list = document.getElementById('list')
 
-  let peopleStart = {
-    "Tom":{
-      "weight": 5000,
-      "height": 162,
-      "age" : 25,
-    },
-    "Billy":{
-      "weight": 6000,
-      "height": 172,
-      "age" : 26,
-    },
-    "Mike":{
-      "weight": 2400,
-      "height": 172,
-      "age" : 26,
-    },
-    "TED":{
-      "weight": 3200,
-      "height": 172,
-      "age" : 26,
-    }
-  }
-  firebase.database().ref('peopleStart').set(peopleStart)
-  var peopleRef = firebase.database().ref('peopleStart')
-  // 路徑 >> 排序('屬性')>> 過濾 >> 讀取 >forEach 撈出資料
-  peopleRef.orderByChild('weight').equalTo(2400).once('value',function(snapshot){
-    console.log(snapshot.val())
-    snapshot.forEach(element => {
-      console.log(element.key)
-      console.log(element.val())
-    });
+  var todoReverse = firebase.database().ref('todoReverse')
+
+
+  // 按送出,可以寫入到資料庫
+  btn.addEventListener('click',function (e) {
+    console.log(e,txt.value)
+    todoReverse.push({content:txt.value})
   })
-  console.log(peopleRef)
+
+  // 顯示內容
+  todoReverse.on('value',function (snapshot) {
+    // console.log('val',typeof(snapshot),snapshot.val())
+    let dataArr = []
+    let str = ''
+    snapshot.forEach(function(item){
+      dataArr.push(item.val())
+      console.log('item',item)
+    })
+    dataArr.reverse()
+    for (const key in dataArr) {
+      str+=`<li data-key=${key}>${dataArr[key].content}</li>`
+    }
+    list.innerHTML=str;
+    console.log(str)
+
+  })
+  // 刪除邏輯
+  list.addEventListener('click',function (e) {
+    if(e.target.nodeName='LI'){
+      var key = e.target.dataset.key
+      // console.lokey)
+      todoReverse.child(key).remove()
+    }
+  }  )
 </script>
 </html>
